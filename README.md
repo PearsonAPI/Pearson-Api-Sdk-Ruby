@@ -2,7 +2,7 @@ A Ruby Client Library for accessing the Pearson API
 ====================================================
 
 ### Setting up API and client details.
-Make sure you have included jQuery and pearson_sdk.js
+After loading pearson_sdk.rb:  
 
 ### APIs
 See the individual API documentation (TravelAPI,DicitonaryAPI) to see how to use the Pearson API SDK for specific APIs.
