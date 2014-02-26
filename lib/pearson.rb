@@ -161,4 +161,32 @@ module Pearson
       self
     end
   end
+
+  class PenguinClassics
+    include Base
+    include HTTParty
+
+    format :json
+    base_uri 'http://api.pearson.com/'
+
+    def initialize(api_key=nil)
+      @api_key = api_key
+      @api = "penguin/classics/v1"
+    end
+
+    def books
+      @endpoint = "books"
+      self
+    end
+
+    def articles
+      @endpoint = "articles"
+      self
+    end
+
+    def authors
+      @endpoint = "authors"
+      self
+    end
+  end
 end
