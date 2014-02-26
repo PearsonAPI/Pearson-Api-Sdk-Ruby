@@ -5,7 +5,7 @@ This document describes how to use the Pearson SDK to access the Dictionaries AP
 ### Accessing the Dictionaries API
 Start be connecting to the Dictionaries API class provided by the Pearson SDK (see example below). 
 ```Ruby
-dict = Dictionaries.new(apikey);
+dict = Pearson::Dictionaries.new(api_key);
 ```
 
 where the _apikey_ is you key to access the Pearson Dictionaries API. 
@@ -21,7 +21,7 @@ In order to search or retrieve entries from the Dictionaries API, you need to us
 that the API provides. 
 
 ```Ruby
-dict = Dictionaries.new(my_apikey)
+dict = Pearson::Dictionaries.new(my_api_key)
 entries = dict.entries
 ```
 
@@ -29,9 +29,9 @@ The ```entries``` endpoint provides methods to _search_ for and _retrieve_ entri
 
 ### Searching for Entries
 ```
-entries.search(searchobj)
+entries.search(search_obj)
 ```
-Searches the dictionaries API. The ```searchobj``` should be a Ruby hash containing one or more of the following proprerties used to direct the search results:
+Searches the dictionaries API. The ```search_obj``` should be a Ruby hash containing one or more of the following properties used to direct the search results:
 
 * offset/limit (integer)
 * headword - (string) search for entries with matching _headword_.
@@ -47,25 +47,25 @@ _offset_ and _limit_ are optional zero-based indexes into the results returned, 
 
 An example of a search *might* be as follows:
 ```Ruby
-searchobj = { headword: "(+cat -fish)",
-                  images: "picture",
-                  audio: "pronunciation"}
+search_obj = { headword: "(+cat -fish)",
+              images: "picture",
+              audio: "pronunciation" }
 
-results = entries.search(searchobj)
+results = entries.search(search_obj)
 ```
 
 ### Retrieving an Entry
 Use the _getById_ method on the _entries_ endpoint to retrieve the full detail of a specific entry.
 ```Ruby
-result = entries.getById(id)
+result = entries.get_by_id(id)
 ```
 where _id_ is the Id of the entry you wish to retrieve.
 
 ### Limiting Search to Specific Dictionaries
 You can limit the search of the Dictionaries API to spefic _datasets_ prior to searching.
 ```Ruby
-entries.setDsets("ldoce5,lasde");
-entries.search(searchobj);
+entries.set_data_sets("ldoce5,lasde");
+entries.search(search_obj);
 ```
 This will ensure that only the specified dictionaries are searched. The _datasets_ should be specified as a comma-delimited string of one or more of the following allowable _datasets_:
 

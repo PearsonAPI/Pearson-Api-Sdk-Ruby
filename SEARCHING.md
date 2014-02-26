@@ -4,15 +4,16 @@
 
 All endpoints that provide search do so by taking a ```search``` hash containing the query _terms_ to use for the search. This is a simple Ruby hash, that should contain properties that match the search options available for the individual APIs.
 ```Ruby
-searchobj = { name: '(+andrew -gavin)',
-               sex: 'male' 
+search_obj = {
+               name: '(+andrew -gavin)',
+               sex: 'male'
              }
         # old hash notation :name => "name" is acceptable
 ```
 You should read the documentation for each individual API to see what valid properties are available for a _search_ hash.
 
 ### Search Results
-Search results are returned as JSON containing the following properties to determine, and naviagte, through the results:
+Search results are returned as JSON containing the following properties to determine, and navigate, through the results:
 
 * offset - offset into the results collection (specified during search)
 * limit - limit of results in collection (specified during search)
