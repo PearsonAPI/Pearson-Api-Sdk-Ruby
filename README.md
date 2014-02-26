@@ -12,6 +12,12 @@ Searching is fundamental to making the most of the Pearson APIs. See the SEARCHI
 
 # Usage
 
+In your Gemfile:
+
+    gem 'pearson_sdk', :git => 'https://github.com/cantino/Pearson-Api-Sdk-Ruby'
+
+In your code:
+
     require 'pearson'
     api = Pearson::FTArticles.new("your api key")
     request = api.articles.search(search: "chicken")
