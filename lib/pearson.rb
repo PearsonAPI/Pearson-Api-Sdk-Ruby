@@ -79,26 +79,32 @@ module Pearson
 
     def topten
       @endpoint = "topten"
+      self
     end
 
     def streetsmart
       @endpoint = "streetsmart"
+      self
     end
 
     def aroundtown
       @endpoint = "around_town"
+      self
     end
 
     def places
       @endpoint = "places"
+      self
     end
 
     def datasets
       @endpoint = "datasets"
+      self
     end
 
     def categories
       @endpoint = "categories"
+      self
     end
   end
 
@@ -116,6 +122,7 @@ module Pearson
 
     def recipes
       @endpoint = "recipes"
+      self
     end
   end
 
@@ -133,6 +140,7 @@ module Pearson
 
     def articles
       @endpoint = "articles"
+      self
     end
   end
 
@@ -150,6 +158,7 @@ module Pearson
 
     def entries
       @endpoint = "entries"
+      self
     end
   end
 end

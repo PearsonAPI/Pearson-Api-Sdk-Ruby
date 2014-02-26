@@ -13,5 +13,6 @@ Searching is fundamental to making the most of the Pearson APIs. See the SEARCHI
 # Usage
 
     require 'pearson'
-    articles = Pearson::FTArticles.new("your api key")
-    result = articles.search(search: "chicken")
+    api = Pearson::FTArticles.new("your api key")
+    request = api.articles.search(search: "chicken")
+    request['results']
