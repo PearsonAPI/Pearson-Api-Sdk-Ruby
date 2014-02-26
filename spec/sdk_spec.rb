@@ -1,5 +1,5 @@
-require_relative '../spec_helper.rb'
-require_relative '../pearson_sdk.rb'
+require_relative 'spec_helper.rb'
+require_relative '../lib/pearson.rb'
 
 describe Pearson::Travel, "Travel Api" do
   before :each do

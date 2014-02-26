@@ -1,3 +1,4 @@
+require 'pearson/version'
 require 'rubygems'
 require 'json'
 require 'httparty'
@@ -6,7 +7,6 @@ require 'active_support/core_ext/object/to_query'
 
 module Pearson
   module Base
-
     # specify a data set to work in
     def set_data_sets(*args)
       comp = *args.join(",").delete(" ")
