@@ -5,7 +5,7 @@ This document describes how to use the Pearson SDK to access the Food and Drink 
 ### Accessing the Food and Drink API  
 Start by connecting to the Food and Drink API class provided by the SDK: 
 ```Ruby
-food = Foodanddrink.new("apikey");
+food = Pearson::FoodAndDrink.new("api_key");
 #where apikey is the key to access the Pearson Food and Drink API
 ```
 
@@ -15,16 +15,16 @@ If no key is specified, or is a 'sandbox' key, searches will return a limited su
 The only endpoint for the Food and Drink API is 'recipes':
 
 ```Ruby
-food = Foodanddrink.new("apikey");
+food = Pearson::FoodAndDrink.new("api_key");
 recipes = food.recipes
 ```
 
 ### Searching
 ```Ruby
-recipes.search(searchobj);
+recipes.search(search_obj);
 ```
 
-This searches the API for the search terms present in the 'searchobj'. This should be a Ruby Hash containing properties to direct the search results:  
+This searches the API for the search terms present in the 'search_obj'. This should be a Ruby Hash containing properties to direct the search results:
 
 * search - (string) Searches across all fields for the specified string.  
 * offset / limit - (integer with defaults of 0 and 10)   
@@ -33,14 +33,14 @@ _offset_ and _limit_ are optional zero-based indexes into the results returned, 
 
 One search example could be:  
 ```Ruby
-searchobj = { search: "chicken" }
+search_obj = { search: "chicken" }
 
-results = recipes.search(searchobj)
+results = recipes.search(search_obj)
 ```
 
-You can also retrieve a recipe by ID by using the getById method:  
+You can also retrieve a recipe by ID by using the get_by_id method:
 ```Ruby
-result = recipes.getById(id)
+result = recipes.get_by_id(id)
 #where id is the id of the recipe you wish to retrieve
 ```
 

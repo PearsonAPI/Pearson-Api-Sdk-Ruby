@@ -4,81 +4,76 @@ require 'httparty'
 require 'pp'
 require 'active_support/core_ext/object/to_query'
 
-module PearsonApis
-  include HTTParty
-  
-  # specify a dataset to work in
-  def setDsets(*args)
-    comp = *args.join(",").delete(" ")
-    @dsets = comp*","
-  end
+module Pearson
+  module Base
 
-
-  def getById(id)
-    
-    if (@apikey).nil? 
-          response = self.class.get("/#{@api}/#{@endpoint}/#{id}")
-    else
-          response = self.class.get("/#{@api}/#{@endpoint}/#{id}?apikey=#{@apikey}")
+    # specify a data set to work in
+    def set_data_sets(*args)
+      comp = *args.join(",").delete(" ")
+      @data_sets = comp * ","
     end
-    
 
-    # if response.success?
-    #   response
-    # else
-    #   raise response.response
-    # end
-    resp = response.parsed_response
-    return resp
-  end
-
-  def expandUrl(url)
-    #create full url
-    prepend = "http://api.pearson.com"
-    if (@apikey).nil?
-      itemUrl = prepend + url 
-    else
-      itemUrl = prepend + url + "?apikey=#{@apikey}"
+    def get_by_id(id)
+      if @api_key.nil?
+        response = self.class.get("/#{@api}/#{@endpoint}/#{id}")
+      else
+        response = self.class.get("/#{@api}/#{@endpoint}/#{id}?api_key=#{@api_key}")
+      end
+      response.parsed_response
     end
-    itemUrl
-  end
 
-  def search(searchobj={})
-      
-      key = { apikey: "#{@apikey}", offset: 0, limit: 10 }
-
-      toQ = key.merge(searchobj)
-
-      yourVars = toQ.clean!
-
-      queries = yourVars.to_query
-
-    if (defined?(@dsets)).nil?
-      response = self.class.get("/#{@api}/#{@endpoint}?#{queries}")
-      resp = response.parsed_response
-      return resp
-    else
-      url = "/#{@api}/#{@dsets}/#{@endpoint}?#{queries}"
-      response = self.class.get(url)
-      resp = response.parsed_response
-      return resp
+    def expand_url(url)
+      prepend = "http://api.pearson.com"
+      if @api_key.nil?
+        prepend + url
+      else
+        prepend + url + "?apikey=" + @api_key
+      end
     end
-    
+
+    def clean_hash(hash)
+      hash.delete_if do |key, val|
+        if block_given?
+          yield(key, val)
+        else
+          val.nil? || val == 0 || !val || (val.respond_to?('empty?') && val.empty?) || (val.is_a?(String) && val.strip.empty?)
+        end
+      end
+
+      hash.each do |key, val|
+        if hash[key].is_a?(Hash)
+          if block_given?
+            hash[key] = clean_hash(hash[key], &Proc.new)
+          else
+            hash[key] = clean_hash(hash[key])
+          end
+        end
+      end
+
+      hash
+    end
+
+    def search(search_obj={})
+      key = {api_key: "#{@api_key}", offset: 0, limit: 10}
+      queries = clean_hash(key.merge(search_obj)).to_query
+
+      if defined?(@data_sets)
+        self.class.get("/#{@api}/#{@data_sets}/#{@endpoint}?#{queries}").parsed_response
+      else
+        self.class.get("/#{@api}/#{@endpoint}?#{queries}").parsed_response
+      end
+    end
   end
 
-end # PearsonApis Module
-
-
-# Select API via class and leave endpoints as methods.
-  class Travel 
-    include PearsonApis
+  class Travel
+    include Base
     include HTTParty
-    
+
     format :json
     base_uri 'http://api.pearson.com/v2'
-    
-    def initialize(apikey=nil) # create an api class tied to a key and v2 api
-      @apikey = apikey
+
+    def initialize(api_key=nil)
+      @api_key = api_key
       @api = "travel"
     end
 
@@ -105,97 +100,56 @@ end # PearsonApis Module
     def categories
       @endpoint = "categories"
     end
-
-
   end
 
-  class Foodanddrink
-    include PearsonApis
+  class FoodAndDrink
+    include Base
     include HTTParty
+
     format :json
     base_uri 'http://api.pearson.com/v2'
 
-
-    def initialize(apikey=nil) # create an api class tied to a key and v2 api
-      @apikey = apikey
+    def initialize(api_key=nil)
+      @api_key = api_key
       @api = "foodanddrink"
     end
-    
+
     def recipes
       @endpoint = "recipes"
     end
-
   end
 
-  class Ftarticles 
-    include PearsonApis
+  class FTArticles
+    include Base
     include HTTParty
+
     format :json
     base_uri 'http://api.pearson.com/v2'
 
-    def initialize(apikey=nil) # create an api class tied to a key and v2 api
-      @apikey = apikey
+    def initialize(api_key=nil)
+      @api_key = api_key
       @api = "ft"
     end
 
     def articles
       @endpoint = "articles"
     end
-
   end
 
   class Dictionaries
-    include PearsonApis
+    include Base
     include HTTParty
+
     format :json
     base_uri 'http://api.pearson.com/v2'
 
-    def initialize(apikey=nil) # create an api class tied to a key and v2 api
-      @apikey = apikey
+    def initialize(api_key=nil)
+      @api_key = api_key
       @api = "dictionaries"
     end
 
     def entries
       @endpoint = "entries"
     end
-
-
   end
-
-
-
-
-
-
-#### Remove 'empty' values from hash
-class Hash
-  def clean!
-          self.delete_if do |key, val|
-              if block_given?
-                  yield(key,val)
-              else
-                  # Prepeare the tests
-                  test1 = val.nil?
-                  test2 = val === 0
-                  test3 = val === false
-                  test4 = val.empty? if val.respond_to?('empty?')
-                  test5 = val.strip.empty? if val.is_a?(String) && val.respond_to?('empty?')
-
-                  # Were any of the tests true
-                  test1 || test2 || test3 || test4 || test5
-              end
-          end
-
-          self.each do |key, val|
-              if self[key].is_a?(Hash) && self[key].respond_to?('clean!')
-                  if block_given?
-                      self[key] = self[key].clean!(&Proc.new)
-                  else
-                      self[key] = self[key].clean!
-                  end
-              end
-          end
-
-          return self
-      end
 end

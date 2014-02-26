@@ -5,7 +5,7 @@ This document describes how to use the Pearson SDK to access the Financial Times
 ### Accessing the FT API  
 Start by connecting to the FT API class provided by the SDK: 
 ```Ruby
-ft = Ftarticles.new("apikey");
+ft = Pearson::FTArticles.new("api_key");
 #where apikey is the key to access the Pearson FT API
 ```
 
@@ -15,16 +15,16 @@ If no key is specified, or is a 'sandbox' key, searches will return a limited su
 The only endpoint for the FT API is 'articles':
 
 ```ruby
-ft = Ftarticles.new("apikey");
+ft = Pearson::FTArticles.new("api_key");
 articles = ft.articles
 ```
 
 ### Searching
 ```Ruby
-articles.search(searchobj);
+articles.search(search_obj);
 ```
 
-This searches the API for the search terms present in the 'searchobj'. This should be a Ruby hash containing properties to direct the search results:  
+This searches the API for the search terms present in the 'search_obj'. This should be a Ruby hash containing properties to direct the search results:
 
 * offset / limit (intergers) - these are set to 0 and 10 as default.
 
@@ -49,17 +49,17 @@ _offset_ and _limit_ are optional zero-based indexes into the results returned, 
 
 One search example could be:  
 ```Ruby
-searchobj = {
+search_obj = {
 	search: "technology",
 	headline: "Foxconn",
 	contributors: "Henry Mance"
 }
 
-articles.search(searchobj)
+articles.search(search_obj)
 ```
 
-You can also retrieve an article by Id using the getById method:  
+You can also retrieve an article by Id using the get_by_id method:
 ```Ruby
-article = articles.getById("cqDa2KAJAf");
+article = articles.get_by_id("cqDa2KAJAf");
 ```
 
