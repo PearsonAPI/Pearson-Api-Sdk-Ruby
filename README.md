@@ -21,4 +21,7 @@ In your code:
     require 'pearson'
     api = Pearson::FTArticles.new("your api key")
     request = api.articles.search(search: "chicken")
-    request['results']
+    p request['results']
+
+    article = api.articles.get_by_id('cqDaKgypN5')
+    paragraphs = article['result']['text']
