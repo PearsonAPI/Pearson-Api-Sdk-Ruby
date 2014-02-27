@@ -6,8 +6,8 @@ require 'pearson/version'
 Gem::Specification.new do |spec|
   spec.name          = "pearson_sdk"
   spec.version       = Pearson::VERSION
-  spec.authors       = ["Pearson, Andrew Cantino"]
-  spec.email         = ["andrew@beelinereader.com"]
+  spec.authors       = ["Pearson plc., Andrew Cantino (http://andrewcantino.com)"]
+  spec.email         = ["toby.sims@pearson.com"]
   spec.description   = %q{A Ruby Client Library for accessing the Pearson API}
   spec.homepage      = "https://developer.pearson.com/apis/"
 

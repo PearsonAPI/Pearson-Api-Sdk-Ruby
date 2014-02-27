@@ -14,7 +14,7 @@ Searching is fundamental to making the most of the Pearson APIs. See the SEARCHI
 
 In your Gemfile:
 
-    gem 'pearson_sdk', :git => 'https://github.com/cantino/Pearson-Api-Sdk-Ruby'
+    gem 'pearson_sdk', :git => 'https://github.com/PearsonAPI/Pearson-Api-Sdk-Ruby'
 
 In your code:
 
